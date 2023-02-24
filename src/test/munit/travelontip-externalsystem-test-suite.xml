@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="travelontip-externalsystem-test-suite.xml" />
+	<munit:test name="travelontip-externalsystem-test-suite-travelontip-externalsystemFlowTest-Routes" doc:id="df950d54-f6a7-4f3d-bba7-8e736e439ec3" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="939d2e1f-cea7-4cdc-89cc-25680b7c1780" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62a785ab-c05a-409b-b026-052e9f5ba384" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[output application/java&#10;---&#10;[&#10;{&#10;        "COMPANYNAME": "TravelOnTip",&#10;        "DESTINATIONLOCATIONCODE": "KLG-MY",&#10;        "ORIGINLOCATIONCODE": "BEN-SG"&#10;    }&#10;    &#10;    ]]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="2957a066-087c-4c51-8a7a-8be0abd66c1d" >
+				<munit:attributes value='#[{&#10;&#10;       "headers" :  { "transactionId" : "hdsfhjdh-jxbv859-sjdf7643-3746bbd" },&#10;       "uriParams" :  { "serviceType" : "routes" }&#10;}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to travelontip-externalsystemFlow" doc:id="f17d2429-4db9-497f-ba72-0f0cba20f991" name="travelontip-externalsystemFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert expression" doc:id="e1caf65b-859f-4eb4-9b90-9d399950b728" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="travelontip-externalsystem-test-suite-travelontip-externalsystemFlowTest-Schedules" doc:id="6d2b9aa7-9797-446e-8042-1ca25b90ec77" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="98b192b4-9f02-426b-86f3-4933cbbeee74" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="ba07aaf3-2729-40f0-aab2-30b5d9330e9b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[output application/java&#10;---&#10;[&#10;{&#10;        "TOLOCATION": "BEN-SG",&#10;        "DEPARTUREDATETIME": "2021-03-22T12:12:12.090Z",&#10;        "FROMLOCATION": "KLG-MY",&#10;        "COMPANYNAME": "TravelOnTip",&#10;        "AVAILABLESEAT": "40"&#10;    }&#10;    &#10;    ]]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="a0e33317-96e8-46cc-a2c7-703552d4beb7" >
+				<munit:attributes value='#[{&#10;&#10;       "headers" :  { "transactionId" : "hdsfhjdh-jxbv859-sjdf7643-3746bbd" },&#10;       "uriParams" :  { "serviceType" : "schedules" }&#10;}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to travelontip-externalsystemFlow" doc:id="d4976de4-1f27-4ef5-9d7d-c537bb84ef57" name="travelontip-externalsystemFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert expression" doc:id="f2e14b61-eb95-47cc-8764-06fe6e2fdd0b" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="travelontip-externalsystem-test-suite-travelontip-externalsystemFlowTest-default" doc:id="dc179519-5961-484d-af50-b33a8af5b001" description="Test">
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="761d0407-0d85-4563-b2b7-d969379f135e" >
+				<munit:attributes value='#[{&#10;&#10;       "headers" :  { "transactionId" : "hdsfhjdh-jxbv859-sjdf7643-3746bbd" }&#10;       &#10;}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to travelontip-externalsystemFlow" doc:id="e5037063-de86-46f5-a22b-766955d294f6" name="travelontip-externalsystemFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert expression" doc:id="498761fb-75f8-4f2d-ab0e-7dd60e6be89d" >
+				<munit-tools:that ><![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must beNull()]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="travelontip-externalsystem-test-suite-travelontip-externalsystemFlowTest-Routes2" doc:id="86a7c486-4fc3-4f1e-ac0c-f49a71467426" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="f0101cb7-ba3f-4c42-a167-f0b65bef9a05" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="62a785ab-c05a-409b-b026-052e9f5ba384" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[output applicatoin/java&#10;---&#10;[&#10;{&#10;        "COMPANYNAME": "TravelOnTip",&#10;        "DESTINATIONLOCATIONCODE": "KLG-MY",&#10;        "ORIGINLOCATIONCODE": "BEN-SG"&#10;    }&#10;    ]]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="ec307c84-5026-4235-99d9-812dcd80fe6e" >
+				<munit:attributes value='#[{&#10;&#10;       "headers" :  { "transactionId" : "hdsfhjdh-jxbv859-sjdf7643-3746bbd" },&#10;       "uriParams" :  { "serviceType" : "routes" }&#10;}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to travelontip-externalsystemFlow" doc:id="67ac8109-cfd6-4d84-838c-7b77732ce3d4" name="travelontip-externalsystemFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert expression" doc:id="6cbbd461-4061-48f1-8666-d5b1b9c83dbc" >
+				<munit-tools:that ><![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must beArray()]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="travelontip-externalsystem-test-suite-travelontip-externalsystemFlowTest-Schedules2" doc:id="0450b3c9-5709-4f61-8de5-2093977ab91b" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="4f54e121-d641-45ef-85d5-b388b0b7b8e0" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="ba07aaf3-2729-40f0-aab2-30b5d9330e9b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='#[output application/java&#10;---&#10;[&#10;{&#10;        "TOLOCATION": "BEN-SG",&#10;        "DEPARTUREDATETIME": "2021-03-22T12:12:12.090Z",&#10;        "FROMLOCATION": "KLG-MY",&#10;        "COMPANYNAME": "TravelOnTip",&#10;        "AVAILABLESEAT": "40"&#10;    }&#10;    &#10;    ]]' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="cdf25a8a-9b15-4f74-9ac1-2157f3c769aa" >
+				<munit:attributes value='#[{&#10;&#10;       "headers" :  { "transactionId" : "hdsfhjdh-jxbv859-sjdf7643-3746bbd" },&#10;       "uriParams" :  { "serviceType" : "schedules" }&#10;}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to travelontip-externalsystemFlow" doc:id="c53c870a-11bc-43af-aa9d-7e5b64234231" name="travelontip-externalsystemFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert expression" doc:id="5f6ef3a8-6dd8-435b-a600-da53cfec3171" >
+				<munit-tools:that ><![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must beArray()]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
